@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 10mm;
+        }
+
+        .head-1 {
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 10px 20px 0 20px;
+            position: relative;
+        }
+
+        .header-1 {
+            text-align: center;
+            width: max-content;
+        }
+
+        .header-1 p {
+            margin: 0;
+            padding: 0;
+            font-weight: bold;
+        }
+
+        .header-2 {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 12px;
+            text-align: right;
+            min-width: 200px;
+        }
+
+        .header-2 p {
+            margin: 0;
+            padding: 0;
+        }
+
+        .header-3 {
+            text-align: center;
+            margin: 10px 0;
+            margin-top: 80px;
+        }
+
+        .header-3 h1 {
+            font-size: 24px;
+            margin-bottom: 0;
+        }
+
+        .header-3 p {
+            margin: 0;
+        }
+
+        .header-4 {
+            margin: 10px 60px;
+            font-size: 11px;
+        }
+
+        .table {
+            width: 100%;
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+
+        .table th,
+        .table td {
+            border: 1px solid black;
+            text-align: center;
+            vertical-align: middle;
+            padding: 6px;
+        }
+
+        .footer-1 {
+            text-align: right;
+            margin-top: 10px;
+            font-size: 11px;
+        }
+
+        .footer-2 {
+            text-align: center;
+            font-size: 11px;
+            margin-top: 5px;
+        }
+
+        .footer-4 {
+            display: inline-block;
+            text-align: left;
+            font-size: 13px;
+            width: 45%;
+            margin-top: 30px;
+        }
+
+        .footer-5 {
+            display: inline-block;
+            text-align: right;
+            font-size: 13px;
+            width: 45%;
+            margin-top: 30px;
+        }
+
+        .footer-6,
+        .footer-7 {
+            text-align: center;
+            font-size: 11px;
+            margin-top: 5px;
+        }
+
+        .border-2 {
+            border: 1px solid black;
+            padding: 3px 6px;
+            border-radius: 5px;
+            display: inline-block;
+        }
+        @media print {
+            .first-page-only {
+              display: table-row;
+            }
+          
+            thead .first-page-only {
+              display: table-row;
+            }
+          
+            
+            tbody::before {
+              content: "";
+              display: block;
+              height: 0;
+              page-break-before: always;
+              visibility: hidden;
+            }
+          }
+
+    </style>
+</head>
+
+<body>
+    <div>
+        <div class="head-1 pt-2">
+            <div class="header-1">
+                <p class="m-0 p-0 fs-5">CASH MEMO / TAX INVOICE</p>
+                <p class="m-0 p-0">Estd {{user.estd}}</p>
+            </div>
+            <div class="header-2 text-end small">
+                <p class="m-0 p-0">p- {{user.phone_no_1}}</p>
+                <p class="m-0 p-0">p- {{user.phone_no_2}}</p>
+                <p class="m-0 p-0">email- {{user.email }}</p>
+                <p class="m-0 p-0">duplicate seller copy/original buyer's copy</p>
+            </div>
+        </div>
+        <div class="header-3">
+            <h1><b>{{user.shop_name}}</b></h1>
+            <p>JEWELLERS</p>
+            <p>{{user.address }}</p>
+        </div>
+        <hr style="height:0px;color:black;margin:60px; border:2px solid">
+        <div class="header-4">
+            <p class="h-4-1" style="float: left;">GSTIN : {{user.gst}}</p>
+            <p class="h-4-2" style="float: right;">HallMark Reg. No: {{user.hallmark}}</p>
+        </div>
+        <table class="table table-bordered border-dark">
+            <thead>
+                <tr class="first-page-only">
+                    <th colspan="3">
+                        Bill No: {{user.bill_no}} <br>
+                        Date: {{user.date }}
+                    </th>
+                    <th colspan="6" rowspan="">Buyer's Details</th>
+                </tr>
+            
+                <tr class="first-page-only">
+                    <th colspan="3">
+                        Items Types: {{ user.item_type}} <br>
+                        Purity: {{user.purity}} <br>
+                        Rate per Gm: {{user.rate_per_gm}} <br>
+                        SM code: {{user.sm_code}}
+                    </th>
+                    <th colspan="6">
+                        Name: {{user.cust_name}} <br>
+                        Address: {{user.cust_address}} <br>
+                        Phone No: {{user.cust_phone}} <br>
+                        State: {{user.cust_state}} <br>
+                        Pin No: {{user.cust_pin}}
+                    </th>
+                </tr>
+            </thead>
+            </table>
+                <table class="table table-bordered border-dark">
+                    <thead>
+                <tr class="repeat-every-page">
+                    <th>S No.</th>
+                    <th>Description</th>
+                    <th>Hsn. Code</th>
+                    <th>PC</th>
+                    <th>Purity</th>
+                    <th>Net Wt</th>
+                    <th>Gold Value</th>
+                    <th>Making Charges</th>
+                    <th>Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if user.product_items %}
+                {% for item in user.product_items %}
+                <tr>
+                    <th scope="row">{{ item.si_no }}</th>
+                    <td>{{ item.des }}</td>
+                    <td>{{ item.hsn_code }}</td>
+                    <td>{{ item.pc }}</td>
+                    <td>{{ item.purity }}</td>
+                    <td>{{ item.net_wt }}</td>
+                    <td>{{ item.gold_value }}</td>
+                    <td>{{ item.making_charges }}</td>
+                    <td>{{ item.amount }}</td>
+                </tr>
+                {% endfor %}
+                {% else %}
+                <tr>
+                    <td colspan="9">No items available</td>
+                </tr>
+                {% endif %}
+                <tr>
+                    <td colspan="4" class="text-end">
+                        {{user.product_items|length}}
+                    </td>
+                    <td>&nbsp;</td>
+                    <td class="text-center">{{ total_net_wt|floatformat:2 }} gm</td>
+                    <td colspan="2" class="text-end">Total Amount</td>
+                    <td class="text-end">{{ user.total_amount }}</td>
+                </tr>
+                <tr>
+                    <td colspan="8" class="text-end">SGST {{user.sgst_persent}}% <br> CGST {{user.cgst_persent}}%</td>
+                    <td>{{user.sgst}} <br>{{user.cgst}}</td>
+                </tr>
+                <tr>
+                    <td colspan="8" class="text-end">Total Amount with Tax</td>
+                    <td>{{ user.total_amount_with_tax }}</td>
+                </tr>
+                <tr>
+                    <td colspan="8" class="text-end">Round Off<br />
+                        {% for name in user.receipt_name %}
+                        {{ name }}<br />
+                        {% endfor %}
+                    </td>
+                    <td>{{ user.round_off }}<br />
+                        {% for value in user.receipt_value %}
+                        {{ value }}<br />
+                        {% endfor %}
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="6" class="text-center">{{ user.balance_amount_in_words}}</td>
+                    <td colspan="2" class="text-end">Balance Amount</td>
+                    <td>{{user.balance_amount }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="footer-1">
+            <p>E. & O.E <br> For {{user.shop_name}}</p>
+        </div>
+        <div>
+            <p><u>Terms and Conditions: </u></p>
+            <ol>
+                {% if user.t_c %}
+    {% for item in user.t_c.0.items %}
+        <li>{{ item.1 }}</li>
+    {% endfor %}
+{% endif %}
+            </ol>
+        </div>
+        <div class="footer-2">
+            <p>"Our Bank: {{user.bank_name}} A/C NO. {{user.ac_no}} , IFSC. {{user.ifsc}} "</p>
+        </div>
+        <div class="footer-2">
+            <p>" {{user.note}}"</p>
+        </div>
+    </div>
+    <div class="">
+        <p class="footer-4">Customer Sign</p>
+        <p class="footer-5">Authorised Sign</p>
+    </div>
+    <div class="footer-6">
+        <p class="border-2">{{user.tagline_1}}</p>
+    </div>
+    <div class="footer-7">
+        <p class="border-2">{{user.tagline_2 }}</p>
+    </div>
+</body>
+
+</html>
