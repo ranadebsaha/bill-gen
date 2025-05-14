@@ -32,7 +32,7 @@ class TermsConditionSerializer(serializers.Serializer):
             raise serializers.ValidationError("Terms and conditions must be a dictionary or list")
 
 class InvoiceSerializer(serializers.Serializer):
-    # Shop Details
+   
     id = serializers.CharField(required=False, allow_blank=True)
     shop_name = serializers.CharField(max_length=255)
     estd = serializers.CharField(max_length=50, required=False, allow_blank=True)
@@ -43,7 +43,7 @@ class InvoiceSerializer(serializers.Serializer):
     gst = serializers.CharField(max_length=50)
     hallmark = serializers.CharField(max_length=50, required=False, allow_blank=True)
 
-    # Invoice Details
+    
     bill_no = serializers.CharField(max_length=50)
     date = serializers.CharField(max_length=50)
     item_type = serializers.CharField(max_length=100)
@@ -51,17 +51,17 @@ class InvoiceSerializer(serializers.Serializer):
     rate_per_gm = serializers.CharField(max_length=50)
     sm_code = serializers.CharField(max_length=50, required=False, allow_blank=True)
 
-    # Customer Details
+    
     cust_name = serializers.CharField(max_length=255)
     cust_address = serializers.CharField(max_length=500)
     cust_phone = serializers.CharField(max_length=20)
     cust_state = serializers.CharField(max_length=100)
     cust_pin = serializers.CharField(max_length=20)
 
-    # Product Items
+   
     product_items = ProductItemSerializer(many=True)
 
-    # Financial Details
+    
     total_amount = serializers.CharField(max_length=50)
     sgst_persent = serializers.CharField(max_length=10)
     cgst_persent = serializers.CharField(max_length=10)
@@ -70,14 +70,11 @@ class InvoiceSerializer(serializers.Serializer):
     total_amount_with_tax = serializers.CharField(max_length=50)
     round_off = serializers.CharField(max_length=50, required=False, allow_blank=True)
     
-    # Receipts
+   
     receipts = ReceiptSerializer(many=True, required=False)
     
-    # Balance Details
     balance_amount = serializers.CharField(max_length=50)
     balance_amount_in_words = serializers.CharField(max_length=500)
-
-    # Other Details
     t_c = TermsConditionSerializer(required=False)
     bank_name = serializers.CharField(max_length=255, required=False, allow_blank=True)
     ac_no = serializers.CharField(max_length=50, required=False, allow_blank=True)
@@ -94,7 +91,6 @@ class InvoiceSerializer(serializers.Serializer):
             )
             invoice_total = float(data['total_amount'].replace(',', ''))
             
-            # Allow small discrepancies (e.g., rounding)
             if abs(calculated_total - invoice_total) > 0.5:
                 raise serializers.ValidationError({
                     'total_amount': 'Total amount does not match sum of product items'
